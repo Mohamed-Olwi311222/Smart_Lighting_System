@@ -1,0 +1,41 @@
+__Hconfig 30000E 0 CONFIG 4
+__Lconfig 0 0 CONFIG 4
+isa$xinst 0 0 ABS 0
+isa$std 1 0 ABS 0
+__H__absolute__ 48 0 ABS 0
+__L__absolute__ 0 0 ABS 0
+__Hspace_0 48 0 ABS 0
+__Lspace_0 0 0 ABS 0
+__Hspace_4 60000F 0 ABS 0
+__Lspace_4 0 0 ABS 0
+%segments
+%locals
+build/default/production/app.o
+app.asm
+57 0 0 ABS 0
+68 4 0 ABS 0
+69 6 0 ABS 0
+72 8 0 ABS 0
+73 A 0 ABS 0
+74 E 0 ABS 0
+75 10 0 ABS 0
+76 14 0 ABS 0
+82 18 0 ABS 0
+83 1A 0 ABS 0
+85 1C 0 ABS 0
+86 1E 0 ABS 0
+87 20 0 ABS 0
+88 22 0 ABS 0
+89 26 0 ABS 0
+95 28 0 ABS 0
+96 2A 0 ABS 0
+98 2C 0 ABS 0
+99 30 0 ABS 0
+100 32 0 ABS 0
+101 36 0 ABS 0
+107 38 0 ABS 0
+108 3A 0 ABS 0
+110 3C 0 ABS 0
+111 40 0 ABS 0
+112 42 0 ABS 0
+113 46 0 ABS 0
