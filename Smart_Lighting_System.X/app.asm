@@ -1,6 +1,5 @@
-; 
-    ; Simple LED Blink Program for PIC18F4620
-; Author: Mohamed Olwi
+; Simple LED Blink Program for PIC18F4620
+; Author: Mohamed Olwi, Sama Mohamed 
 ; Description: Blink an LED on RB0 using a simple delay
 
 
@@ -66,15 +65,18 @@ delay2 equ 0x452h
 ; Main Program
 ;------------------------------
 Start:
-    BCF TRISB, 0		   ; Set RB0 to be output
-    BCF LATB, 0			   ; Output 0 v on RB0
-
-MainLoop:
-    BSF LATB, 0			   ; Output 5 v on RB0
-    CALL Delay5ms		   ; Delay
-    BCF LATB, 0			   ; Output 0 v on RB0
-    CALL Delay5ms			
-    GOTO MainLoop
+    call configure_interrupt
+    goto Start
+;------------------------------
+; configure_interrupt
+;------------------------------
+configure_interrupt:
+    BCF INTCON, 7	;Enable global interrupt		    GIEH
+    BCF INTCON, 6	;Enable peripheral interrupt		    PIEL
+    BCF RCON, 7		;Enable Priority Feature		    IPEN
+    BCF INTCON2, 0	;PORTB on change interrupt high priority    RBIP
+    BCF INTCON, 3	;Enable PORTB on change interrupt	    RBIE
+    return
 ;------------------------------
 ; Delay Subroutine
     ;Make a delay of 5ms

@@ -2,7 +2,7 @@
 # 1 "<built-in>" 1
 # 1 "app.asm" 2
 ; Simple LED Blink Program for PIC18F4620
-; Author: Mohamed Olwi
+; Author: Mohamed Olwi, Sama Mohamed
 ; Description: Blink an LED on RB0 using a simple delay
 
 
@@ -56,8 +56,8 @@
 
 PROCESSOR 18f4620
 
-# 1 "D:/Programming/Microchip/MPLABX/v6.20/packs/Microchip/PIC18Fxxxx_DFP/1.6.159/xc8\\pic\\include\\proc\\pic18f4620.inc" 1 3
-# 47 "D:/Programming/Microchip/MPLABX/v6.20/packs/Microchip/PIC18Fxxxx_DFP/1.6.159/xc8\\pic\\include\\proc\\pic18f4620.inc" 3
+# 1 "C:/Program Files/Microchip/MPLABX/v6.20/packs/Microchip/PIC18Fxxxx_DFP/1.6.159/xc8\\pic\\include\\proc\\pic18f4620.inc" 1 3
+# 47 "C:/Program Files/Microchip/MPLABX/v6.20/packs/Microchip/PIC18Fxxxx_DFP/1.6.159/xc8\\pic\\include\\proc\\pic18f4620.inc" 3
 PORTA equ 0F80h
 
 PORTA_RA0_POSN equ 0000h
@@ -3969,8 +3969,9 @@ TOSH equ 0FFEh
 
 
 TOSU equ 0FFFh
-# 56 "app.asm" 2
- ORG 0x0000 ; Set the reset vector to address 0x0000
+# 55 "app.asm" 2
+
+        ORG 0x0000 ; Set the reset vector to address 0x0000
         GOTO Start ; Jump to the start of the code
 
 ;define delay variables
@@ -3982,15 +3983,18 @@ delay2 equ 0x452h
 ; Main Program
 ;------------------------------
 Start:
-    BCF TRISB, 0 ; Set ((PORTB) and 0FFh), 0, a to be output
-    BCF LATB, 0 ; Output 0 v on ((PORTB) and 0FFh), 0, a
-
-MainLoop:
-    BSF LATB, 0 ; Output 5 v on ((PORTB) and 0FFh), 0, a
-    CALL Delay5ms ; Delay
-    BCF LATB, 0 ; Output 0 v on ((PORTB) and 0FFh), 0, a
-    CALL Delay5ms
-    GOTO MainLoop
+    call configure_interrupt
+    goto Start
+;------------------------------
+; configure_interrupt
+;------------------------------
+configure_interrupt:
+    BCF INTCON, 7 ;Enable global interrupt ((INTCON) and 0FFh), 7, a
+    BCF INTCON, 6 ;Enable peripheral interrupt PIEL
+    BCF RCON, 7 ;Enable Priority Feature ((RCON) and 0FFh), 7, a
+    BCF INTCON2, 0 ;PORTB on change interrupt high priority ((INTCON2) and 0FFh), 0, a
+    BCF INTCON, 3 ;Enable PORTB on change interrupt ((INTCON) and 0FFh), 3, a
+    return
 ;------------------------------
 ; Delay Subroutine
     ;Make a delay of 5ms
