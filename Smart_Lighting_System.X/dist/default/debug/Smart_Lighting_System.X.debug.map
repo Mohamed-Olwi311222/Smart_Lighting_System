@@ -1,0 +1,141 @@
+Microchip MPLAB XC8 PIC(R) Assembler V2.46
+
+Linker command line:
+
+-W-3 \
+  --edf=C:\Program Files\Microchip\xc8\v2.46\pic\dat\20240104201356_en.msgs \
+  -cs -h+dist/default/debug\Smart_Lighting_System.X.debug.sym \
+  --cmf=dist/default/debug\Smart_Lighting_System.X.debug.cmf -z -Q18F4620 \
+  -oC:\Users\samam\AppData\Local\Temp\xcAsq5s.\driver_tmp_3.o \
+  --fixupoverflow=error -ver=XC8 PIC(R) Assembler --fixupoverflow=lstwarn \
+  -Mdist/default/debug/Smart_Lighting_System.X.debug.map -E1 --acfsm=1493 \
+  -ACODE=00h-0FFFFh -ACONST=00h-0FFFFh -ASMALLCONST=01000h-010FFhx240 \
+  -AMEDIUMCONST=01000h-0FFFFh -ACOMRAM=00h-07Fh -AABS1=00h-0F7Fh \
+  -ABIGRAM=00h-0F7Fh -ARAM=080h-0FFh,0100h-01FFhx14,0F00h-0F7Fh \
+  -ABANK0=080h-0FFh -ABANK1=0100h-01FFh -ABANK2=0200h-02FFh \
+  -ABANK3=0300h-03FFh -ABANK4=0400h-04FFh -ABANK5=0500h-05FFh \
+  -ABANK6=0600h-06FFh -ABANK7=0700h-07FFh -ABANK8=0800h-08FFh \
+  -ABANK9=0900h-09FFh -ABANK10=0A00h-0AFFh -ABANK11=0B00h-0BFFh \
+  -ABANK12=0C00h-0CFFh -ABANK13=0D00h-0DFFh -ABANK14=0E00h-0EFFh \
+  -ABANK15=0F00h-0F7Fh -ASFR=0F80h-0FFFh -ABIGSFR=0F80h-0FFFh \
+  -ACONFIG=0300000h-0300000h -AIDLOC=0200000h-0200007h \
+  -AEEDATA=0F00000h-0F003FFh build/default/debug/app.o 
+
+Object code version is 3.11
+
+Machine type is 18F4620
+
+
+
+                Name                               Link     Load   Length Selector   Space Scale
+build/default/debug/app.o
+                config                           300001   300001        D        0       4
+                __absolute__                          0        0       48        0       0
+
+TOTAL           Name                               Link     Load   Length     Space
+        CLASS   CODE           
+
+        CLASS   CONST          
+
+        CLASS   SMALLCONST     
+
+        CLASS   MEDIUMCONST    
+
+        CLASS   COMRAM         
+
+        CLASS   ABS1           
+
+        CLASS   BIGRAM         
+
+        CLASS   RAM            
+
+        CLASS   BANK0          
+
+        CLASS   BANK1          
+
+        CLASS   BANK2          
+
+        CLASS   BANK3          
+
+        CLASS   BANK4          
+
+        CLASS   BANK5          
+
+        CLASS   BANK6          
+
+        CLASS   BANK7          
+
+        CLASS   BANK8          
+
+        CLASS   BANK9          
+
+        CLASS   BANK10         
+
+        CLASS   BANK11         
+
+        CLASS   BANK12         
+
+        CLASS   BANK13         
+
+        CLASS   BANK14         
+
+        CLASS   BANK15         
+
+        CLASS   SFR            
+
+        CLASS   BIGSFR         
+
+        CLASS   CONFIG         
+                config                           300001   300001        D         4
+
+        CLASS   IDLOC          
+
+        CLASS   EEDATA         
+
+        CLASS   UNCLASSED
+                __absolute__                          0        0       48         0
+
+
+SEGMENTS        Name                           Load    Length   Top    Selector   Space  Class
+
+
+
+UNUSED ADDRESS RANGES
+
+        Name                Unused          Largest block    Delta
+        BANK0            000080-0000FF               80
+        BANK1            000100-0001FF              100
+        BANK10           000A00-000AFF              100
+        BANK11           000B00-000BFF              100
+        BANK12           000C00-000CFF              100
+        BANK13           000D00-000DFF              100
+        BANK14           000E00-000EFF              100
+        BANK15           000F00-000F7F               80
+        BANK2            000200-0002FF              100
+        BANK3            000300-0003FF              100
+        BANK4            000400-0004FF              100
+        BANK5            000500-0005FF              100
+        BANK6            000600-0006FF              100
+        BANK7            000700-0007FF              100
+        BANK8            000800-0008FF              100
+        BANK9            000900-0009FF              100
+        BIGRAM           000048-000F7F              F38
+        BIGSFR           000F80-000FFF               80
+        CODE             000048-00FFFF             FFB8
+        COMRAM           000048-00007F               38
+        CONFIG           300000-300000                1
+        CONST            000048-00FFFF             FFB8
+        EEDATA           F00000-F003FF              400
+        IDLOC            200000-200007                8
+        MEDIUMCONST      001000-00FFFF             F000
+        RAM              000080-000F7F              100
+        SFR              000F80-000FFF               80
+        SMALLCONST       001000-00FFFF              100
+
+                                  Symbol Table
+
+__H__absolute__ __absolute__ 000048  __Hconfig       config       30000E
+__Hspace_0      (abs)        000048  __Hspace_4      (abs)        60000F
+__L__absolute__ __absolute__ 000000  __Lconfig       config       000000
+__Lspace_0      (abs)        000000  __Lspace_4      (abs)        000000
+isa$std         (abs)        000001  isa$xinst       (abs)        000000
