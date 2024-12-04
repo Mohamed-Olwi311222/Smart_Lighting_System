@@ -1,9 +1,8 @@
 # 1 "app.asm"
 # 1 "<built-in>" 1
 # 1 "app.asm" 2
-; Simple LED Blink Program for PIC18F4620
-; Author: Mohamed Olwi, Sama Mohamed
-; Description: Blink an LED on RB0 using a simple delay
+; Authors: Mohamed Olwi, Sama Mohamed
+; Description:
 
 
 ; PIC18F4620 Configuration Bit Settings
@@ -3969,7 +3968,7 @@ TOSH equ 0FFEh
 
 
 TOSU equ 0FFFh
-# 55 "app.asm" 2
+# 54 "app.asm" 2
 
         ORG 0x0000 ; Set the reset vector to address 0x0000
         GOTO Start ; Jump to the start of the code
@@ -3983,8 +3982,8 @@ delay2 equ 0x452h
 ; Main Program
 ;------------------------------
 Start:
-    call configure_interrupt
-    goto Start
+
+    return
 ;------------------------------
 ; configure_interrupt
 ;------------------------------

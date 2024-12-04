@@ -4,23 +4,22 @@ Linker command line:
 
 -W-3 \
   --edf=D:\Programming\Microchip\xc8\v2.46\pic\dat\20240104201356_en.msgs \
-  -cs -h+dist/default/production\Smart_Lighting_System.X.production.sym \
-  --cmf=dist/default/production\Smart_Lighting_System.X.production.cmf -z \
-  -Q18F4620 -oC:\Users\elsae\AppData\Local\Temp\xcAs9hc.\driver_tmp_3.o \
+  -cs -h+dist/default/debug\Smart_Lighting_System.X.debug.sym \
+  --cmf=dist/default/debug\Smart_Lighting_System.X.debug.cmf -z -Q18F4620 \
+  -oC:\Users\elsae\AppData\Local\Temp\xcAsv1s.\driver_tmp_3.o \
   --fixupoverflow=error -ver=XC8 PIC(R) Assembler --fixupoverflow=lstwarn \
-  -Mdist/default/production/Smart_Lighting_System.X.production.map -E1 \
-  --acfsm=1493 -ACODE=00h-0FFFFh -ACONST=00h-0FFFFh \
-  -ASMALLCONST=01000h-010FFhx240 -AMEDIUMCONST=01000h-0FFFFh \
-  -ACOMRAM=00h-07Fh -AABS1=00h-0F7Fh -ABIGRAM=00h-0F7Fh \
-  -ARAM=080h-0FFh,0100h-01FFhx14,0F00h-0F7Fh -ABANK0=080h-0FFh \
-  -ABANK1=0100h-01FFh -ABANK2=0200h-02FFh -ABANK3=0300h-03FFh \
-  -ABANK4=0400h-04FFh -ABANK5=0500h-05FFh -ABANK6=0600h-06FFh \
-  -ABANK7=0700h-07FFh -ABANK8=0800h-08FFh -ABANK9=0900h-09FFh \
-  -ABANK10=0A00h-0AFFh -ABANK11=0B00h-0BFFh -ABANK12=0C00h-0CFFh \
-  -ABANK13=0D00h-0DFFh -ABANK14=0E00h-0EFFh -ABANK15=0F00h-0F7Fh \
-  -ASFR=0F80h-0FFFh -ABIGSFR=0F80h-0FFFh -ACONFIG=0300000h-0300000h \
-  -AIDLOC=0200000h-0200007h -AEEDATA=0F00000h-0F003FFh \
-  build/default/production/app.o 
+  -Mdist/default/debug/Smart_Lighting_System.X.debug.map -E1 --acfsm=1493 \
+  -ACODE=00h-0FFFFh -ACONST=00h-0FFFFh -ASMALLCONST=01000h-010FFhx240 \
+  -AMEDIUMCONST=01000h-0FFFFh -ACOMRAM=00h-07Fh -AABS1=00h-0F7Fh \
+  -ABIGRAM=00h-0F7Fh -ARAM=080h-0FFh,0100h-01FFhx14,0F00h-0F7Fh \
+  -ABANK0=080h-0FFh -ABANK1=0100h-01FFh -ABANK2=0200h-02FFh \
+  -ABANK3=0300h-03FFh -ABANK4=0400h-04FFh -ABANK5=0500h-05FFh \
+  -ABANK6=0600h-06FFh -ABANK7=0700h-07FFh -ABANK8=0800h-08FFh \
+  -ABANK9=0900h-09FFh -ABANK10=0A00h-0AFFh -ABANK11=0B00h-0BFFh \
+  -ABANK12=0C00h-0CFFh -ABANK13=0D00h-0DFFh -ABANK14=0E00h-0EFFh \
+  -ABANK15=0F00h-0F7Fh -ASFR=0F80h-0FFFh -ABIGSFR=0F80h-0FFFh \
+  -ACONFIG=0300000h-0300000h -AIDLOC=0200000h-0200007h \
+  -AEEDATA=0F00000h-0F003FFh build/default/debug/app.o 
 
 Object code version is 3.11
 
@@ -29,9 +28,9 @@ Machine type is 18F4620
 
 
                 Name                               Link     Load   Length Selector   Space Scale
-build/default/production/app.o
+build/default/debug/app.o
                 config                           300001   300001        D        0       4
-                __absolute__                          0        0       48        0       0
+                __absolute__                          0        0       42        0       0
 
 TOTAL           Name                               Link     Load   Length     Space
         CLASS   CODE           
@@ -94,7 +93,7 @@ TOTAL           Name                               Link     Load   Length     Sp
         CLASS   EEDATA         
 
         CLASS   UNCLASSED
-                __absolute__                          0        0       48         0
+                __absolute__                          0        0       42         0
 
 
 SEGMENTS        Name                           Load    Length   Top    Selector   Space  Class
@@ -120,12 +119,12 @@ UNUSED ADDRESS RANGES
         BANK7            000700-0007FF              100
         BANK8            000800-0008FF              100
         BANK9            000900-0009FF              100
-        BIGRAM           000048-000F7F              F38
+        BIGRAM           000042-000F7F              F3E
         BIGSFR           000F80-000FFF               80
-        CODE             000048-00FFFF             FFB8
-        COMRAM           000048-00007F               38
+        CODE             000042-00FFFF             FFBE
+        COMRAM           000042-00007F               3E
         CONFIG           300000-300000                1
-        CONST            000048-00FFFF             FFB8
+        CONST            000042-00FFFF             FFBE
         EEDATA           F00000-F003FF              400
         IDLOC            200000-200007                8
         MEDIUMCONST      001000-00FFFF             F000
@@ -135,8 +134,8 @@ UNUSED ADDRESS RANGES
 
                                   Symbol Table
 
-__H__absolute__ __absolute__ 000048  __Hconfig       config       30000E
-__Hspace_0      (abs)        000048  __Hspace_4      (abs)        60000F
+__H__absolute__ __absolute__ 000042  __Hconfig       config       30000E
+__Hspace_0      (abs)        000042  __Hspace_4      (abs)        60000F
 __L__absolute__ __absolute__ 000000  __Lconfig       config       000000
 __Lspace_0      (abs)        000000  __Lspace_4      (abs)        000000
 isa$std         (abs)        000001  isa$xinst       (abs)        000000
