@@ -60,15 +60,41 @@ delay0 equ 0x450h
 delay1 equ 0x451h
 delay2 equ 0x452h
 
+
+;define adc result variables
+ adc_res_low equ 0x453h
+ adc_res_high equ 0x454h
+;define LDR sensor daylight threshold
+ ldr_daylight_threshold equ 0x455h
+;define LDR flag for turning on the led on RC0
+ threshold_flag equ 0x456h
 ;------------------------------
 ; Main Program
 ;------------------------------
 Start:
     call configure_interrupt
-
+    call configure_adc
+    call configure_led
+    MOVLW 0x85h			    ;load ldr_daylight_threshold with 133(daylight volatage)
+    MOVWF ldr_daylight_threshold
+main_loop:
+    call start_adc_conversion	    ;start the adc conversion
+    call check_adc_conversion	    ;check the read value with the threshold
+    BTFSC threshold_flag, 0	    ;Check the threshold_flag to turn on the led if it is set
+    BSF LATC, 0
+    goto main_loop
     return
 ;------------------------------
-; configure_interrupt
+; configure_led Subroutine
+    ;Configure the Led connected on RC0
+;------------------------------
+configure_led:
+    BCF TRISC, 0	;Make RC0 as Output
+    BCF LATC, 0		;Make RC0 default is Logic Low
+    return
+;------------------------------
+; configure_interrupt Subroutine
+    ;Configure the external interrupt
 ;------------------------------
 configure_interrupt:
     BSF RCON, 7		;Enable Priority Feature		    IPEN
@@ -77,6 +103,73 @@ configure_interrupt:
     BSF INTCON2, 0	;PORTB on change interrupt high priority    RBIP
     BSF INTCON, 3	;Enable PORTB on change interrupt	    RBIE
     return
+;------------------------------
+; configure_adc Subroutine
+    ;configure the adc peripheral
+;------------------------------   
+configure_adc:
+    ;ADCON0 Bits
+    BSF ADCON0, 2	;Set the ADC channel to AN0 (CHS0:CHS3) 
+    BSF ADCON0, 0	;Enable ADC (ADON bit)
+    
+    ;ADCON1 Bits
+    ;Set PORT Configuration to make AN0 an analog input
+    BCF ADCON1, 0	
+    BSF ADCON1, 3
+    
+    ;ADCON2 Bits
+    ;Set the ADC Conversion Clock
+    BSF ADCON2, 0
+    BSF ADCON2, 2
+    ;Set the Acquisition time
+    BSF ADCON2, 3
+    BSF ADCON2, 5
+
+    return 
+;------------------------------
+; start_adc_conversion Subroutine
+    ;Start the ADC conversion
+;------------------------------   
+start_adc_conversion:
+    BSF ADCON0, 1	;Start ADC conversion	
+    return
+;------------------------------
+; start_adc_conversion Subroutine
+    ;Read the ADC conversion
+;------------------------------   
+read_adc_conversion:
+;Poll the GO/DONE bit until the ADC is idle
+check:
+    BTFSC ADCON1, 1	    ;Check GO/DONE bit, skip if clear
+    goto check
+    ;Read adc conversion result
+    MOVFF ADRESL, adc_res_low
+    MOVFF ADRESH, adc_res_high   
+    return
+;------------------------------
+; check_adc_conversion Subroutine
+    ;Check the ADC conversion, will set threshold_flag if night
+;------------------------------      
+check_adc_conversion:
+    call read_adc_conversion
+    MOVF adc_res_low, w		    ;Store adc_res_low to Working register
+    SUBWF ldr_daylight_threshold
+    BTFSC STATUS, 0		    ;Check the carry flag skip if clear
+    goto more_than_threshold
+    goto less_than_threshold
+more_than_threshold:
+    ;Clear the threshold_flag to indicate the value of the threshold is less than the current value
+    ;Daylight mode
+    MOVLW 0
+    MOVWF threshold_flag
+    goto exit_check_adc
+less_than_threshold:  
+    ;Set the threshold_flag to indicate the value of the threshold is more than the current value
+    ;Night Mode
+    MOVLW 1
+    MOVWF threshold_flag
+exit_check_adc:
+    return 
 ;------------------------------
 ; Delay Subroutine
     ;Make a delay of 5ms

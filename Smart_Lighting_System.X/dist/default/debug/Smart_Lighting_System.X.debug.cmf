@@ -12,7 +12,7 @@
 # in delta units.  Any other numeric values are decimal.
 %PSECTS
 $build/default/debug/app.o
-__absolute__ - 0 0 0 42 1 1
+__absolute__ - 0 0 0 AE 1 1
 config CONFIG 4 300001 300001 D 1 1
 # %UNUSED Section
 # This section enumerates the unused ranges of each CLASS. Each entry
@@ -20,9 +20,9 @@ config CONFIG 4 300001 300001 D 1 1
 #    <class name> <range> <delta>
 # Addresses given in the range are in hexadecimal and units of delta.
 %UNUSED
-RAM 80-F7F 1
+RAM AE-F7F 1
 SFR F80-FFF 1
-BANK0 80-FF 1
+BANK0 AE-FF 1
 BANK1 100-1FF 1
 BANK2 200-2FF 1
 BANK3 300-3FF 1
@@ -32,19 +32,18 @@ BANK6 600-6FF 1
 BANK7 700-7FF 1
 BANK8 800-8FF 1
 BANK9 900-9FF 1
-CONST 42-FFFF 1
+CONST AE-FFFF 1
 IDLOC 200000-200007 1
 SMALLCONST 1000-FFFF 1
-CODE 42-FFFF 1
+CODE AE-FFFF 1
 BANK10 A00-AFF 1
 BANK11 B00-BFF 1
 BANK12 C00-CFF 1
 BANK13 D00-DFF 1
 BANK14 E00-EFF 1
 BANK15 F00-F7F 1
-BIGRAM 42-F7F 1
+BIGRAM AE-F7F 1
 BIGSFR F80-FFF 1
-COMRAM 42-7F 1
 CONFIG 300000-300000 1
 EEDATA F00000-F003FF 1
 MEDIUMCONST 1000-FFFF 1
@@ -62,33 +61,74 @@ MEDIUMCONST 1000-FFFF 1
 # All other numeric values are in decimal.
 %LINETAB
 $build/default/debug/app.o
-0 __absolute__ ABS >56:D:\Programming\Projects\Projects_with_PIC18f4620\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
-4 __absolute__ ABS >68:D:\Programming\Projects\Projects_with_PIC18f4620\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
-6 __absolute__ ABS >73:D:\Programming\Projects\Projects_with_PIC18f4620\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
-8 __absolute__ ABS >74:D:\Programming\Projects\Projects_with_PIC18f4620\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
-A __absolute__ ABS >75:D:\Programming\Projects\Projects_with_PIC18f4620\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
-C __absolute__ ABS >76:D:\Programming\Projects\Projects_with_PIC18f4620\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
-E __absolute__ ABS >77:D:\Programming\Projects\Projects_with_PIC18f4620\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
-10 __absolute__ ABS >78:D:\Programming\Projects\Projects_with_PIC18f4620\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
-12 __absolute__ ABS >84:D:\Programming\Projects\Projects_with_PIC18f4620\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
-14 __absolute__ ABS >85:D:\Programming\Projects\Projects_with_PIC18f4620\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
-16 __absolute__ ABS >87:D:\Programming\Projects\Projects_with_PIC18f4620\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
-18 __absolute__ ABS >88:D:\Programming\Projects\Projects_with_PIC18f4620\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
-1A __absolute__ ABS >89:D:\Programming\Projects\Projects_with_PIC18f4620\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
-1C __absolute__ ABS >90:D:\Programming\Projects\Projects_with_PIC18f4620\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
-20 __absolute__ ABS >91:D:\Programming\Projects\Projects_with_PIC18f4620\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
-22 __absolute__ ABS >97:D:\Programming\Projects\Projects_with_PIC18f4620\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
-24 __absolute__ ABS >98:D:\Programming\Projects\Projects_with_PIC18f4620\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
-26 __absolute__ ABS >100:D:\Programming\Projects\Projects_with_PIC18f4620\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
-2A __absolute__ ABS >101:D:\Programming\Projects\Projects_with_PIC18f4620\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
-2C __absolute__ ABS >102:D:\Programming\Projects\Projects_with_PIC18f4620\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
-30 __absolute__ ABS >103:D:\Programming\Projects\Projects_with_PIC18f4620\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
-32 __absolute__ ABS >109:D:\Programming\Projects\Projects_with_PIC18f4620\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
-34 __absolute__ ABS >110:D:\Programming\Projects\Projects_with_PIC18f4620\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
-36 __absolute__ ABS >112:D:\Programming\Projects\Projects_with_PIC18f4620\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
-3A __absolute__ ABS >113:D:\Programming\Projects\Projects_with_PIC18f4620\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
-3C __absolute__ ABS >114:D:\Programming\Projects\Projects_with_PIC18f4620\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
-40 __absolute__ ABS >115:D:\Programming\Projects\Projects_with_PIC18f4620\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+0 __absolute__ ABS >56:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+4 __absolute__ ABS >75:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+8 __absolute__ ABS >76:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+C __absolute__ ABS >77:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+10 __absolute__ ABS >78:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+12 __absolute__ ABS >79:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+14 __absolute__ ABS >81:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+18 __absolute__ ABS >82:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+1C __absolute__ ABS >83:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+1E __absolute__ ABS >84:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+20 __absolute__ ABS >85:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+24 __absolute__ ABS >86:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+26 __absolute__ ABS >92:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+28 __absolute__ ABS >93:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+2A __absolute__ ABS >94:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+2C __absolute__ ABS >100:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+2E __absolute__ ABS >101:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+30 __absolute__ ABS >102:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+32 __absolute__ ABS >103:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+34 __absolute__ ABS >104:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+36 __absolute__ ABS >105:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+38 __absolute__ ABS >112:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+3A __absolute__ ABS >113:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+3C __absolute__ ABS >117:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+3E __absolute__ ABS >118:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+40 __absolute__ ABS >122:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+42 __absolute__ ABS >123:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+44 __absolute__ ABS >125:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+46 __absolute__ ABS >126:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+48 __absolute__ ABS >128:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+4A __absolute__ ABS >134:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+4C __absolute__ ABS >135:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+4E __absolute__ ABS >143:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+50 __absolute__ ABS >144:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+54 __absolute__ ABS >146:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+58 __absolute__ ABS >147:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+5C __absolute__ ABS >148:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+5E __absolute__ ABS >154:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+62 __absolute__ ABS >155:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+64 __absolute__ ABS >156:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+66 __absolute__ ABS >157:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+68 __absolute__ ABS >158:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+6C __absolute__ ABS >159:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+70 __absolute__ ABS >163:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+72 __absolute__ ABS >164:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+74 __absolute__ ABS >165:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+78 __absolute__ ABS >169:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+7A __absolute__ ABS >170:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+7C __absolute__ ABS >172:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+7E __absolute__ ABS >178:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+80 __absolute__ ABS >179:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+82 __absolute__ ABS >181:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+84 __absolute__ ABS >182:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+86 __absolute__ ABS >183:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+88 __absolute__ ABS >184:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+8C __absolute__ ABS >185:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+8E __absolute__ ABS >191:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+90 __absolute__ ABS >192:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+92 __absolute__ ABS >194:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+96 __absolute__ ABS >195:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+98 __absolute__ ABS >196:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+9C __absolute__ ABS >197:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+9E __absolute__ ABS >203:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+A0 __absolute__ ABS >204:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+A2 __absolute__ ABS >206:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+A6 __absolute__ ABS >207:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+A8 __absolute__ ABS >208:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
+AC __absolute__ ABS >209:C:\Users\samam\OneDrive\Desktop\Assembly Project\Smart_Lighting_System\Smart_Lighting_System.X\app.asm
 # %SYMTAB Section
 # An enumeration of all symbols in the program.
 # The beginning of the section is indicated by %SYMTAB.
@@ -101,7 +141,7 @@ E __absolute__ ABS >77:D:\Programming\Projects\Projects_with_PIC18f4620\Smart_Li
 # was defined in a psect then <psect> will be "-". File-name
 # is the name of the object file in which the symbol was defined.
 %SYMTAB
-__Hspace_0 42 0 ABS 0 - -
+__Hspace_0 AE 0 ABS 0 - -
 __Hspace_4 60000F 0 ABS 0 - -
 __L__absolute__ 0 0 ABS 0 __absolute__ -
 isa$xinst 0 0 ABS 0 - build/default/debug/app.o
@@ -110,7 +150,7 @@ __Lconfig 0 0 CONFIG 4 config -
 isa$std 1 0 ABS 0 - build/default/debug/app.o
 __Lspace_0 0 0 ABS 0 - -
 __Lspace_4 0 0 ABS 0 - -
-__H__absolute__ 42 0 ABS 0 __absolute__ -
+__H__absolute__ AE 0 ABS 0 __absolute__ -
 # %SPLITSTAB Section
 # This section enumerates all the psect splits performed by the assembler.
 # The beginning of the section is indicated by %SPLITSTAB.

@@ -55,8 +55,8 @@
 
 PROCESSOR 18f4620
 
-# 1 "D:/Programming/Microchip/MPLABX/v6.20/packs/Microchip/PIC18Fxxxx_DFP/1.6.159/xc8\\pic\\include\\proc\\pic18f4620.inc" 1 3
-# 47 "D:/Programming/Microchip/MPLABX/v6.20/packs/Microchip/PIC18Fxxxx_DFP/1.6.159/xc8\\pic\\include\\proc\\pic18f4620.inc" 3
+# 1 "C:/Program Files/Microchip/MPLABX/v6.20/packs/Microchip/PIC18Fxxxx_DFP/1.6.159/xc8\\pic\\include\\proc\\pic18f4620.inc" 1 3
+# 47 "C:/Program Files/Microchip/MPLABX/v6.20/packs/Microchip/PIC18Fxxxx_DFP/1.6.159/xc8\\pic\\include\\proc\\pic18f4620.inc" 3
 PORTA equ 0F80h
 
 PORTA_RA0_POSN equ 0000h
@@ -3978,21 +3978,115 @@ delay0 equ 0x450h
 delay1 equ 0x451h
 delay2 equ 0x452h
 
+
+;define adc result variables
+ adc_res_low equ 0x453h
+ adc_res_high equ 0x454h
+;define LDR sensor daylight threshold
+ ldr_daylight_threshold equ 0x455h
+;define LDR flag for turning on the led on ((PORTC) and 0FFh), 0, a
+ threshold_flag equ 0x456h
 ;------------------------------
 ; Main Program
 ;------------------------------
 Start:
+    call configure_interrupt
+    call configure_adc
+    call configure_led
+    MOVLW 0x85h ;load ldr_daylight_threshold with 133(daylight volatage)
+    MOVWF ldr_daylight_threshold
+main_loop:
+    call start_adc_conversion ;start the adc conversion
+    call check_adc_conversion ;check the read value with the threshold
+    BTFSC threshold_flag, 0 ;Check the threshold_flag to turn on the led if it is set
+    BSF LATC, 0
+    goto main_loop
+    return
+;------------------------------
+; configure_led Subroutine
+    ;Configure the Led connected on ((PORTC) and 0FFh), 0, a
+;------------------------------
+configure_led:
+    BCF TRISC, 0 ;Make ((PORTC) and 0FFh), 0, a as Output
+    BCF LATC, 0 ;Make ((PORTC) and 0FFh), 0, a default is Logic Low
+    return
+;------------------------------
+; configure_interrupt Subroutine
+    ;Configure the external interrupt
+;------------------------------
+configure_interrupt:
+    BSF RCON, 7 ;Enable Priority Feature ((RCON) and 0FFh), 7, a
+    BSF INTCON, 7 ;Enable global interrupt ((INTCON) and 0FFh), 7, a
+    BSF INTCON, 6 ;Enable peripheral interrupt PIEL
+    BSF INTCON2, 0 ;PORTB on change interrupt high priority ((INTCON2) and 0FFh), 0, a
+    BSF INTCON, 3 ;Enable PORTB on change interrupt ((INTCON) and 0FFh), 3, a
+    return
+;------------------------------
+; configure_adc Subroutine
+    ;configure the adc peripheral
+;------------------------------
+configure_adc:
+    ;ADCON0 Bits
+    BSF ADCON0, 2 ;Set the ADC channel to AN0 (((ADCON0) and 0FFh), 2, a:((ADCON0) and 0FFh), 5, a)
+    BSF ADCON0, 0 ;Enable ADC (((ADCON0) and 0FFh), 0, a bit)
+
+    ;ADCON1 Bits
+    ;Set PORT Configuration to make AN0 an analog input
+    BCF ADCON1, 0
+    BSF ADCON1, 3
+
+    ;ADCON2 Bits
+    ;Set the ADC Conversion Clock
+    BSF ADCON2, 0
+    BSF ADCON2, 2
+    ;Set the Acquisition time
+    BSF ADCON2, 3
+    BSF ADCON2, 5
 
     return
 ;------------------------------
-; configure_interrupt
+; start_adc_conversion Subroutine
+    ;Start the ADC conversion
 ;------------------------------
-configure_interrupt:
-    BCF INTCON, 7 ;Enable global interrupt ((INTCON) and 0FFh), 7, a
-    BCF INTCON, 6 ;Enable peripheral interrupt PIEL
-    BCF RCON, 7 ;Enable Priority Feature ((RCON) and 0FFh), 7, a
-    BCF INTCON2, 0 ;PORTB on change interrupt high priority ((INTCON2) and 0FFh), 0, a
-    BCF INTCON, 3 ;Enable PORTB on change interrupt ((INTCON) and 0FFh), 3, a
+start_adc_conversion:
+    BSF ADCON0, 1 ;Start ADC conversion
+    return
+;------------------------------
+; start_adc_conversion Subroutine
+    ;Read the ADC conversion
+;------------------------------
+read_adc_conversion:
+;Poll the ((ADCON0) and 0FFh), 1, a/((ADCON0) and 0FFh), 1, a bit until the ADC is idle
+check:
+    BTFSC ADCON1, 1 ;Check ((ADCON0) and 0FFh), 1, a/((ADCON0) and 0FFh), 1, a bit, skip if clear
+    goto check
+    ;Read adc conversion result
+    MOVFF ADRESL, adc_res_low
+    MOVFF ADRESH, adc_res_high
+    return
+;------------------------------
+; check_adc_conversion Subroutine
+    ;Check the ADC conversion, will set threshold_flag if night
+;------------------------------
+check_adc_conversion:
+    call read_adc_conversion
+    MOVF adc_res_low, w ;Store adc_res_low to Working register
+    SUBWF ldr_daylight_threshold
+    BTFSC STATUS, 0 ;Check the carry flag skip if clear
+    goto more_than_threshold
+    goto less_than_threshold
+more_than_threshold:
+    ;Clear the threshold_flag to indicate the value of the threshold is less than the current value
+    ;Daylight mode
+    MOVLW 0
+    MOVWF threshold_flag
+    goto exit_check_adc
+less_than_threshold:
+    ;Set the threshold_flag to indicate the value of the threshold is more than the current value
+    ;Night Mode
+    MOVLW 1
+    MOVWF threshold_flag
+exit_check_adc:
     return
 ;------------------------------
 ; Delay Subroutine
