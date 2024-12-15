@@ -109,7 +109,7 @@ configure_interrupt:
 ;------------------------------   
 configure_adc:
     ;ADCON0 Bits
-    BSF ADCON0, 2	;Set the ADC channel to AN0 (CHS0:CHS3) 
+    BCF ADCON0, 2	;Set the ADC channel to AN0 (CHS0:CHS3) 
     BSF ADCON0, 0	;Enable ADC (ADON bit)
     
     ;ADCON1 Bits
@@ -140,7 +140,7 @@ start_adc_conversion:
 read_adc_conversion:
 ;Poll the GO/DONE bit until the ADC is idle
 check:
-    BTFSC ADCON1, 1	    ;Check GO/DONE bit, skip if clear
+    BTFSC ADCON0, 1	    ;Check GO/DONE bit, skip if clear
     goto check
     ;Read adc conversion result
     MOVFF ADRESL, adc_res_low
