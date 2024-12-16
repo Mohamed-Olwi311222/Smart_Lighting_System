@@ -6,7 +6,7 @@ Linker command line:
   --edf=D:\Programming\Microchip\xc8\v2.46\pic\dat\20240104201356_en.msgs \
   -cs -h+dist/default/production\Smart_Lighting_System.X.production.sym \
   --cmf=dist/default/production\Smart_Lighting_System.X.production.cmf -z \
-  -Q18F4620 -oC:\Users\elsae\AppData\Local\Temp\xcAs9no.\driver_tmp_3.o \
+  -Q18F4620 -oC:\Users\elsae\AppData\Local\Temp\xcAs138k.\driver_tmp_3.o \
   --fixupoverflow=error -ver=XC8 PIC(R) Assembler --fixupoverflow=lstwarn \
   -Mdist/default/production/Smart_Lighting_System.X.production.map -E1 \
   --acfsm=1493 -ACODE=00h-0FFFFh -ACONST=00h-0FFFFh \
@@ -31,7 +31,7 @@ Machine type is 18F4620
                 Name                               Link     Load   Length Selector   Space Scale
 build/default/production/app.o
                 config                           300001   300001        D        0       4
-                __absolute__                          0        0       C4        0       0
+                __absolute__                          0        0       EC        0       0
 
 TOTAL           Name                               Link     Load   Length     Space
         CLASS   CODE           
@@ -94,7 +94,7 @@ TOTAL           Name                               Link     Load   Length     Sp
         CLASS   EEDATA         
 
         CLASS   UNCLASSED
-                __absolute__                          0        0       C4         0
+                __absolute__                          0        0       EC         0
 
 
 SEGMENTS        Name                           Load    Length   Top    Selector   Space  Class
@@ -104,7 +104,7 @@ SEGMENTS        Name                           Load    Length   Top    Selector 
 UNUSED ADDRESS RANGES
 
         Name                Unused          Largest block    Delta
-        BANK0            0000C4-0000FF               3C
+        BANK0            0000EC-0000FF               14
         BANK1            000100-0001FF              100
         BANK10           000A00-000AFF              100
         BANK11           000B00-000BFF              100
@@ -120,22 +120,22 @@ UNUSED ADDRESS RANGES
         BANK7            000700-0007FF              100
         BANK8            000800-0008FF              100
         BANK9            000900-0009FF              100
-        BIGRAM           0000C4-000F7F              EBC
+        BIGRAM           0000EC-000F7F              E94
         BIGSFR           000F80-000FFF               80
-        CODE             0000C4-00FFFF             FF3C
+        CODE             0000EC-00FFFF             FF14
         CONFIG           300000-300000                1
-        CONST            0000C4-00FFFF             FF3C
+        CONST            0000EC-00FFFF             FF14
         EEDATA           F00000-F003FF              400
         IDLOC            200000-200007                8
         MEDIUMCONST      001000-00FFFF             F000
-        RAM              0000C4-000F7F              100
+        RAM              0000EC-000F7F              100
         SFR              000F80-000FFF               80
         SMALLCONST       001000-00FFFF              100
 
                                   Symbol Table
 
-__H__absolute__ __absolute__ 0000C4  __Hconfig       config       30000E
-__Hspace_0      (abs)        0000C4  __Hspace_4      (abs)        60000F
+__H__absolute__ __absolute__ 0000EC  __Hconfig       config       30000E
+__Hspace_0      (abs)        0000EC  __Hspace_4      (abs)        60000F
 __L__absolute__ __absolute__ 000000  __Lconfig       config       000000
 __Lspace_0      (abs)        000000  __Lspace_4      (abs)        000000
 isa$std         (abs)        000001  isa$xinst       (abs)        000000

@@ -3972,22 +3972,29 @@ TOSH equ 0FFEh
 TOSU equ 0FFFh
 # 56 "app.asm" 2
 
-        ORG 0x0000 ; Set the reset vector to address 0x0000
+        ORG 0x0000h ; Set the reset vector to address 0x0000
         GOTO Start ; Jump to the start of the code
 
-;define delay variables
-delay0 equ 0x450h
-delay1 equ 0x451h
-delay2 equ 0x452h
+ ORG 0x0008h ;Set the start of the high priority interrupt vector
+ BTFSC INTCON, 2 ;Branch to TIMER0 ISR if the flag is set
+ BRA TMR0_ISR
+ RETFIE
 
+ ORG 0x0018h ;Set the start of the low priority interrupt vector
+ BTFSC INTCON3, 0 ;Branch to ((PORTB) and 0FFh), 0, a isr if the flag is set
+ BRA INT1_ISR
 
+ RETFIE
+
+;define the delay variable
+delay_15s equ 0x451h
 ;define adc result variables
 adc_res_low equ 0x452h
 adc_res_high equ 0x453h
 ;define LDR sensor daylight threshold
 ldr_daylight_threshold equ 0x454h
 ;define LDR flag for turning on the led on ((PORTC) and 0FFh), 0, a
- threshold_flag equ 0x456h
+threshold_flag equ 0x456h
 ;------------------------------
 ; Main Program
 ;------------------------------
@@ -4010,11 +4017,12 @@ Start:
     MOVLW 0xCFH
     MOVWF SPBRG
 
-    call configure_interrupt
-    call configure_adc
-    call configure_led
-    MOVLW 0x00H
-    MOVWF STATUS ;Initialize the STATUS register with 0
+    call configure_timer0 ;Configure the TIMER0 peripheral
+    call configure_interrupt ;Configure the interrupts(((PORTB) and 0FFh), 0, a and TIMER0)
+    call configure_adc ;Configure the ADC Peripheral
+    call configure_led ;Configure the led pin
+    MOVLW 0x00H ;Initialize the STATUS register with 0
+    MOVWF STATUS
     MOVLW 0xB8h ;load ldr_daylight_threshold with 133(daylight volatage)
     MOVWF ldr_daylight_threshold
     MOVLW 0x01h ;Initalize the threshold_flag with zero
@@ -4042,10 +4050,35 @@ configure_led:
 ;------------------------------
 configure_interrupt:
     BSF RCON, 7 ;Enable Priority Feature ((RCON) and 0FFh), 7, a
-    BSF INTCON, 7 ;Enable global interrupt ((INTCON) and 0FFh), 7, a
-    BSF INTCON, 6 ;Enable peripheral interrupt PIEL
-    BSF INTCON2, 0 ;PORTB on change interrupt high priority ((INTCON2) and 0FFh), 0, a
-    BSF INTCON, 3 ;Enable PORTB on change interrupt ((INTCON) and 0FFh), 3, a
+    ;INTCON0 Register
+    MOVLW 0xE0
+    MOVWF INTCON
+    ;INTCON2 Register
+    MOVLW 0xF4
+    MOVWF INTCON2
+    ;INTCON3 Register
+    MOVLW 0x08
+    MOVWF INTCON3
+    return
+;------------------------------
+; configure_timer0 Subroutine
+    ;Configure the timer0 for 1 Sec delay
+;------------------------------
+configure_timer0:
+    MOVLW 0x04H
+    MOVWF T0CON
+    MOVLW 0x0B
+    MOVWF TMR0H
+    MOVLW 0xDC
+    MOVWF TMR0L
+
+    return
+;------------------------------
+; start_timer0 Subroutine
+    ;Start the timer0 for 1 Sec delay
+;------------------------------
+start_timer0:
+    BSF T0CON, 7
     return
 ;------------------------------
 ; configure_adc Subroutine
@@ -4109,44 +4142,37 @@ check_adc_conversion:
     BTFSS STATUS, 0 ;if borrow flag is clear, (adc_res_low < ldr_daylight_threshold)
     MOVLW 0x00h ;threshold_flag is clear, night
     MOVWF threshold_flag
-    MOVF adc_res_low, W
-    MOVWF TXREG
     return
 ;------------------------------
-; Delay Subroutine
-    ;Make a delay of 5ms
+; INT1_ISR ISR
+    ;The Interrupt Service routine of ((PORTB) and 0FFh), 1, a
 ;------------------------------
-Delay5ms:
-    MOVLW 0xC8 ;200 cycles => each cycle is 5 us
-    MOVWF delay0
-Loop5ms:
-    NOP
-    NOP
-    DECFSZ delay0, f
-    GOTO Loop5ms
-    RETURN
+INT1_ISR:
+    BCF INTCON3, 0 ;Clear ((PORTB) and 0FFh), 1, a Interrupt flag
+    BSF LATC, 0 ;Turn On the led
+    MOVLW 0x0Fh ;Start the 15s delay
+    MOVWF delay_15s
+    CALL start_timer0
+INT1_loop:
+    MOVF delay_15s, W ; Move 'delay_15s' to W and set STATUS Z flag
+    BNZ INT1_loop ; If Z flag is clear (my_number > 0), jump to INT1_loop
+    BCF LATC, 0 ;Turn OFF the led
+    RETFIE
 ;------------------------------
-; Delay100ms Subroutine
-    ;Make a delay of 100ms
+; TMR0_ISR ISR
+    ;The Interrupt Service routine of TIMER0
 ;------------------------------
-Delay100ms:
-    MOVLW 0x64
-    MOVWF delay1
-Loop100ms:
-    call Delay5ms
-    DECFSZ delay1, f
-    GOTO Loop100ms
-    RETURN
-;------------------------------
-; Delay500ms Subroutine
-    ;Make a delay of 500ms
-;------------------------------
-Delay500ms:
-    MOVLW 0x05
-    MOVWF delay2
-Loop500ms:
-    call Delay100ms
-    DECFSZ delay2, f
-    GOTO Loop500ms
-    RETURN
+TMR0_ISR:
+    BCF INTCON, 2 ;Clear TMR0 Interrupt flag
+    ;Set the preloaded value again
+    MOVLW 0x0B
+    MOVWF TMR0H
+    MOVLW 0xDC
+    MOVWF TMR0L
+    DCFSNZ delay_15s
+    BCF T0CON, 7 ;Disable TIMER0 if the delay is ended
+    ;Transmit the Seconds to USART
+    MOVF delay_15s, W
+    MOVWF TXREG
+    RETFIE
 END Start ; End of program
