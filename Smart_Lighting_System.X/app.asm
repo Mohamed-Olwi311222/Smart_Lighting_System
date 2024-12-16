@@ -11,9 +11,9 @@
   CONFIG  FCMEN = OFF			; Fail-Safe Clock Monitor Enable bit (Fail-Safe Clock Monitor disabled)
   CONFIG  IESO = OFF			; Internal/External Oscillator Switchover bit (Oscillator Switchover mode disabled)
 ; CONFIG2L
-  CONFIG  PWRT = OFF			; Power-up Timer Enable bit (PWRT disabled)
-  CONFIG  BOREN = SBORDIS		; Brown-out Reset Enable bits (Brown-out Reset enabled in hardware only (SBOREN is disabled))
-  CONFIG  BORV = 3			; Brown Out Reset Voltage bits (Minimum setting)
+  CONFIG  PWRT = OFF            ; Power-up Timer Enable bit (PWRT disabled)
+  CONFIG  BOREN = OFF           ; Brown-out Reset Enable bits (Brown-out Reset disabled in hardware and software)
+  CONFIG  BORV = 3              ; Brown Out Reset Voltage bits (Minimum setting)
 ; CONFIG2H
   CONFIG  WDT = OFF			; Watchdog Timer Enable bit (WDT disabled (control is placed on the SWDTEN bit))
   CONFIG  WDTPS = 32768			; Watchdog Timer Postscale Select bits (1:32768)
