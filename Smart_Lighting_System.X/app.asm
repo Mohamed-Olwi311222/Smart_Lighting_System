@@ -1,7 +1,38 @@
 ; Authors: Mohamed Olwi, Sama Mohamed 
 ; Description:
-; This program uses the ADC of the PIC18F4620 to monitor an LDR sensor.
-; It turns an LED on/off based on whether the light level crosses a defined threshold.
+; This program is written for the PIC18F4620 microcontroller and demonstrates 
+; the use of its Analog-to-Digital Converter (ADC) module to monitor the output 
+; of a Light Dependent Resistor (LDR) sensor. The LDR's analog signal is converted 
+; to a digital value by the ADC. The program compares this digital value to a 
+; predefined threshold to determine the ambient light intensity.
+; 
+; Based on the light level:
+; - If the light intensity is below the threshold (indicating darkness), 
+;   an LED connected to a specified pin is turned ON.
+; - If the light intensity is above the threshold (indicating brightness), 
+;   the LED is turned OFF.
+; 
+; Key Features:
+; - Configures the ADC module to read the LDR sensor's analog signal.
+; - Implements a threshold comparison to decide the LED's state.
+; - The ADC result is read from the ADC result registers (ADRESH:ADRESL).
+; 
+; Applications:
+; - This program can be used in light-sensitive systems such as automatic night 
+;   lights, brightness monitoring systems, and light-activated switches.
+; 
+; Hardware Connections:
+; - An LDR sensor is connected to an analog input pin (e.g., AN0/RA0) of the 
+;   PIC18F4620 via a voltage divider circuit.
+; - An LED is connected to a digital output pin (e.g., RC0) through a current-limiting resistor.
+; - Ensure appropriate power supply and grounding connections for the PIC18F4620 and the circuit.
+;
+; Notes:
+; - The threshold value can be adjusted in the code to suit different light 
+;   sensitivity requirements.
+; - The program assumes a basic configuration of the ADC module, and users can 
+;   extend the code for additional sensors or functionality.
+
 
 
 ; PIC18F4620 Configuration Bit Settings
