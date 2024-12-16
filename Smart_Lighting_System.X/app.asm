@@ -1,37 +1,46 @@
 ; Authors: Mohamed Olwi, Sama Mohamed 
 ; Description:
 ; This program is written for the PIC18F4620 microcontroller and demonstrates 
-; the use of its Analog-to-Digital Converter (ADC) module to monitor the output 
-; of a Light Dependent Resistor (LDR) sensor. The LDR's analog signal is converted 
-; to a digital value by the ADC. The program compares this digital value to a 
-; predefined threshold to determine the ambient light intensity.
+; the use of a PIR (Passive Infrared) sensor and an LDR (Light-Dependent Resistor) 
+; to control an LED based on motion detection and ambient light levels.
 ; 
-; Based on the light level:
-; - If the light intensity is below the threshold (indicating darkness), 
-;   an LED connected to a specified pin is turned ON.
-; - If the light intensity is above the threshold (indicating brightness), 
-;   the LED is turned OFF.
-; 
-; Key Features:
-; - Configures the ADC module to read the LDR sensor's analog signal.
-; - Implements a threshold comparison to decide the LED's state.
-; - The ADC result is read from the ADC result registers (ADRESH:ADRESL).
+; Program Workflow:
+; - The PIR sensor detects motion by sensing infrared radiation changes. Its output 
+;   is connected to a digital input pin of the microcontroller.
+; - The LDR sensor measures ambient light levels. The ADC module of the PIC18F4620 
+;   reads the LDR's analog output, which varies based on light intensity.
+; - Based on the sensor inputs:
+;   - If motion is detected (PIR output is HIGH) and the light level is below 
+;     a predefined threshold (indicating it's dark), the LED is turned ON.
+;   - If no motion is detected or the ambient light level is above the threshold, 
+;     the LED is turned OFF.
 ; 
 ; Applications:
-; - This program can be used in light-sensitive systems such as automatic night 
-;   lights, brightness monitoring systems, and light-activated switches.
+; - This program can be used in automated systems like smart lighting, where 
+;   lights turn ON only when motion is detected in low-light conditions.
+; - Suitable for energy-saving systems in homes, offices, or outdoor areas.
 ; 
 ; Hardware Connections:
-; - An LDR sensor is connected to an analog input pin (e.g., AN0/RA0) of the 
-;   PIC18F4620 via a voltage divider circuit.
-; - An LED is connected to a digital output pin (e.g., RC0) through a current-limiting resistor.
-; - Ensure appropriate power supply and grounding connections for the PIC18F4620 and the circuit.
-;
-; Notes:
-; - The threshold value can be adjusted in the code to suit different light 
-;   sensitivity requirements.
-; - The program assumes a basic configuration of the ADC module, and users can 
-;   extend the code for additional sensors or functionality.
+; - PIR Sensor:
+;   - Output pin connected to a digital input pin (e.g., RA0/AN0) of the PIC18F4620.
+;   - Power supply (typically 5V) and ground connections are provided to the sensor.
+; - LDR Sensor:
+;   - Connected in a voltage divider circuit, with its output connected to an ADC 
+;     pin (e.g., RA1/AN1) of the PIC18F4620.
+;   - The circuit also requires a resistor to complete the voltage divider.
+; - LED:
+;   - Connected to a digital output pin (e.g., RC0) through a current-limiting resistor.
+; - Ensure appropriate power supply and grounding connections for the PIC18F4620 
+;   and the sensors.
+; 
+; Note:
+; - The ADC module of the PIC18F4620 is configured to read the LDR sensor output.
+; - The PIR sensor's output is digital, so it is read as a simple HIGH/LOW signal.
+; - The light threshold for the LDR can be adjusted in the program by modifying 
+;   the ADC value threshold.
+; - The program logic ensures the LED is turned ON only when both conditions 
+;   (motion detected and low light) are satisfied.
+
 
 
 
