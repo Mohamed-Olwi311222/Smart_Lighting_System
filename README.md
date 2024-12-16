@@ -146,6 +146,10 @@ INT1_ISR:
 - Integrate PWM to adjust LED brightness dynamically.
 - Implement a real-time clock (RTC) for scheduled operations.
 ---
+---
+##Project Schematic
+![Proteus_Design](https://github.com/user-attachments/assets/f6c96a30-7004-4260-bb4b-5d644071c310)
+---
 
 ## Authors
 - Mohamed Olwi
