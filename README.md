@@ -147,7 +147,7 @@ INT1_ISR:
 - Implement a real-time clock (RTC) for scheduled operations.
 ---
 ---
-##Project Schematic
+## Project Schematic
 ![Proteus_Design](https://github.com/user-attachments/assets/f6c96a30-7004-4260-bb4b-5d644071c310)
 ---
 
