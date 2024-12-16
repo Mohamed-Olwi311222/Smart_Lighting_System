@@ -1,5 +1,7 @@
 ; Authors: Mohamed Olwi, Sama Mohamed 
-; Description: 
+; Description:
+; This program uses the ADC of the PIC18F4620 to monitor an LDR sensor.
+; It turns an LED on/off based on whether the light level crosses a defined threshold.
 
 
 ; PIC18F4620 Configuration Bit Settings
@@ -62,27 +64,51 @@ delay2 equ 0x452h
 
 
 ;define adc result variables
- adc_res_low equ 0x453h
- adc_res_high equ 0x454h
+adc_res_low equ 0x452h
+adc_res_high equ 0x453h
 ;define LDR sensor daylight threshold
- ldr_daylight_threshold equ 0x455h
+ldr_daylight_threshold equ 0x454h
 ;define LDR flag for turning on the led on RC0
  threshold_flag equ 0x456h
 ;------------------------------
 ; Main Program
 ;------------------------------
 Start:
+;Configure Internal Clock to be 8 MHZ
+    MOVLW 0x72h		    ; Sets IRCF (internal clock frequency), and SCS bits (clock source)
+    MOVWF OSCCON	    ; This might trigger the error in Proteus
+
+;Configure EUSART for debugging
+    ;BAUDCON Register
+    MOVLW 0x48H
+    MOVWF BAUDCON
+    ;RCSTA Register
+    MOVLW 0x80H
+    MOVWF RCSTA
+    ;TXSTA Register
+    MOVLW 0x26H
+    MOVWF TXSTA
+    ;SPBRG Register
+    MOVLW 0xCFH
+    MOVWF SPBRG
+
     call configure_interrupt
     call configure_adc
     call configure_led
-    MOVLW 0x85h			    ;load ldr_daylight_threshold with 133(daylight volatage)
+    MOVLW 0x00H
+    MOVWF STATUS		    ;Initialize the STATUS register with 0
+    MOVLW 0xB8h			    ;load ldr_daylight_threshold with 133(daylight volatage)
     MOVWF ldr_daylight_threshold
+    MOVLW 0x01h			    ;Initalize the threshold_flag with zero
+    MOVWF threshold_flag
 main_loop:
     call start_adc_conversion	    ;start the adc conversion
     call check_adc_conversion	    ;check the read value with the threshold
-    BTFSC threshold_flag, 0	    ;Check the threshold_flag to turn on the led if it is set
-    BSF LATC, 0
-    goto main_loop
+    BTFSS threshold_flag, 0	    ;Check the threshold_flag to turn off the led if it is set
+    BCF LATC, 0			    ;Day
+    BTFSC threshold_flag, 0         ;Check the threshold_flag to turn on the led if it is clear
+    BSF LATC, 0                     ;Night
+    BRA main_loop
     return
 ;------------------------------
 ; configure_led Subroutine
@@ -124,7 +150,8 @@ configure_adc:
     ;Set the Acquisition time
     BSF ADCON2, 3
     BSF ADCON2, 5
-
+    ;Set the result to be right justified
+    BSF ADCON2, 7
     return 
 ;------------------------------
 ; start_adc_conversion Subroutine
@@ -141,35 +168,32 @@ read_adc_conversion:
 ;Poll the GO/DONE bit until the ADC is idle
 check:
     BTFSC ADCON0, 1	    ;Check GO/DONE bit, skip if clear
-    goto check
+    BRA check
     ;Read adc conversion result
-    MOVFF ADRESL, adc_res_low
-    MOVFF ADRESH, adc_res_high   
+    MOVF ADRESL, w
+    MOVWF adc_res_low
+    MOVF ADRESH, w   
+    MOVWF adc_res_high
     return
 ;------------------------------
 ; check_adc_conversion Subroutine
     ;Check the ADC conversion, will set threshold_flag if night
 ;------------------------------      
 check_adc_conversion:
+    ;COMPARE adc_res_low WITH ldr_daylight_threshold
+    ;If the subtraction results in an overflow (i.e., the result is outside the 8-bit range)
+    ;the CF is cleared. Otherwise, it remains 1.
     call read_adc_conversion
-    MOVF adc_res_low, w		    ;Store adc_res_low to Working register
-    SUBWF ldr_daylight_threshold
-    BTFSC STATUS, 0		    ;Check the carry flag skip if clear
-    goto more_than_threshold
-    goto less_than_threshold
-more_than_threshold:
-    ;Clear the threshold_flag to indicate the value of the threshold is less than the current value
-    ;Daylight mode
-    MOVLW 0
+    MOVF adc_res_low, w			;Store adc_res_low to Working register
+    SUBWF ldr_daylight_threshold, w	;Subtract W(adc_res_low) from ldr_daylight_threshold_temp
+    BTFSC STATUS, 0			;if borrow flag is set, (adc_res_low > ldr_daylight_threshold)
+    MOVLW 0x01h				;threshold_flag is set, day
+    BTFSS STATUS, 0			;if borrow flag is clear, (adc_res_low < ldr_daylight_threshold)
+    MOVLW 0x00h				;threshold_flag is clear, night
     MOVWF threshold_flag
-    goto exit_check_adc
-less_than_threshold:  
-    ;Set the threshold_flag to indicate the value of the threshold is more than the current value
-    ;Night Mode
-    MOVLW 1
-    MOVWF threshold_flag
-exit_check_adc:
-    return 
+    MOVF adc_res_low, W
+    MOVWF TXREG
+    return
 ;------------------------------
 ; Delay Subroutine
     ;Make a delay of 5ms
@@ -181,7 +205,7 @@ Loop5ms:
     NOP
     NOP
     DECFSZ delay0, f
-    GOTO Loop5ms
+    BRA Loop5ms
     RETURN
 ;------------------------------
 ; Delay100ms Subroutine
@@ -193,7 +217,7 @@ Delay100ms:
 Loop100ms:
     call Delay5ms
     DECFSZ delay1, f
-    GOTO Loop100ms
+    BRA Loop100ms
     RETURN
 ;------------------------------
 ; Delay500ms Subroutine
@@ -205,6 +229,6 @@ Delay500ms:
 Loop500ms:
     call Delay100ms
     DECFSZ delay2, f
-    GOTO Loop500ms
+    BRA Loop500ms
     RETURN
 END Start                       ; End of program
