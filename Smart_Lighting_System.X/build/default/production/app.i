@@ -3,8 +3,48 @@
 # 1 "app.asm" 2
 ; Authors: Mohamed Olwi, Sama Mohamed
 ; Description:
-; This program uses the ADC of the PIC18F4620 to monitor an LDR sensor.
-; It turns an LED on/off based on whether the light level crosses a defined threshold.
+; This program is written for the PIC18F4620 microcontroller and demonstrates
+; the use of a PIR (Passive Infrared) sensor and an LDR (Light-Dependent Resistor)
+; to control an LED based on motion detection and ambient light levels.
+;
+; Program Workflow:
+; - The PIR sensor detects motion by sensing infrared radiation changes. Its output
+; is connected to a digital input pin of the microcontroller.
+; - The LDR sensor measures ambient light levels. The ADC module of the PIC18F4620
+; reads the LDR's analog output, which varies based on light intensity.
+; - Based on the sensor inputs:
+; - If motion is detected (PIR output is HIGH) and the light level is below
+; a predefined threshold (indicating it's dark), the LED is turned ON.
+; - If no motion is detected or the ambient light level is above the threshold,
+; the LED is turned OFF.
+;
+; Applications:
+; - This program can be used in automated systems like smart lighting, where
+; lights turn ON only when motion is detected in low-light conditions.
+; - Suitable for energy-saving systems in homes, offices, or outdoor areas.
+;
+; Hardware Connections:
+; - PIR Sensor:
+; - Output pin connected to a digital input pin (e.g., RA0/AN0) of the PIC18F4620.
+; - Power supply (typically 5V) and ground connections are provided to the sensor.
+; - LDR Sensor:
+; - Connected in a voltage divider circuit, with its output connected to an ADC
+; pin (e.g., RA1/AN1) of the PIC18F4620.
+; - The circuit also requires a resistor to complete the voltage divider.
+; - LED:
+; - Connected to a digital output pin (e.g., RC0) through a current-limiting resistor.
+; - Ensure appropriate power supply and grounding connections for the PIC18F4620
+; and the sensors.
+;
+; Note:
+; - The ADC module of the PIC18F4620 is configured to read the LDR sensor output.
+; - The PIR sensor's output is digital, so it is read as a simple HIGH/LOW signal.
+; - The light threshold for the LDR can be adjusted in the program by modifying
+; the ADC value threshold.
+; - The program logic ensures the LED is turned ON only when both conditions
+; (motion detected and low light) are satisfied.
+
+
 
 
 ; PIC18F4620 Configuration Bit Settings
@@ -15,7 +55,7 @@
   CONFIG IESO = OFF ; Internal/External Oscillator Switchover bit (Oscillator Switchover mode disabled)
 ; CONFIG2L
   CONFIG PWRT = OFF ; Power-up Timer Enable bit (PWRT disabled)
-  CONFIG BOREN = SBORDIS ; Brown-out Reset Enable bits (Brown-out Reset enabled in hardware only (SBOREN is disabled))
+  CONFIG BOREN = OFF ; Brown-out Reset Enable bits (Brown-out Reset disabled in hardware and software)
   CONFIG BORV = 3 ; Brown Out Reset Voltage bits (Minimum setting)
 ; CONFIG2H
   CONFIG WDT = OFF ; Watchdog Timer Enable bit (WDT disabled (control is placed on the SWDTEN bit))
@@ -3970,7 +4010,7 @@ TOSH equ 0FFEh
 
 
 TOSU equ 0FFFh
-# 56 "app.asm" 2
+# 96 "app.asm" 2
 
         ORG 0x0000h ; Set the reset vector to address 0x0000
         GOTO Start ; Jump to the start of the code
@@ -3981,16 +4021,14 @@ TOSU equ 0FFFh
  RETFIE
 
  ORG 0x0018h ;Set the start of the low priority interrupt vector
- BTFSC INTCON3, 0 ;Branch to ((PORTB) and 0FFh), 0, a isr if the flag is set
+ BTFSC INTCON3, 0 ;Branch to ((PORTB) and 0FFh), 1, a isr if the flag is set
  BRA INT1_ISR
-
  RETFIE
 
 ;define the delay variable
 delay_15s equ 0x451h
 ;define adc result variables
 adc_res_low equ 0x452h
-adc_res_high equ 0x453h
 ;define LDR sensor daylight threshold
 ldr_daylight_threshold equ 0x454h
 ;define LDR flag for turning on the led on ((PORTC) and 0FFh), 0, a
@@ -4023,9 +4061,9 @@ Start:
     call configure_led ;Configure the led pin
     MOVLW 0x00H ;Initialize the STATUS register with 0
     MOVWF STATUS
-    MOVLW 0xB8h ;load ldr_daylight_threshold with 133(daylight volatage)
+    MOVLW 0xB8h ;load ldr_daylight_threshold with 184(daylight volatage)
     MOVWF ldr_daylight_threshold
-    MOVLW 0x01h ;Initalize the threshold_flag with zero
+    MOVLW 0x01h ;Initalize the threshold_flag with one
     MOVWF threshold_flag
 main_loop:
     call start_adc_conversion ;start the adc conversion
@@ -4123,8 +4161,6 @@ check:
     ;Read adc conversion result
     MOVF ADRESL, w
     MOVWF adc_res_low
-    MOVF ADRESH, w
-    MOVWF adc_res_high
     return
 ;------------------------------
 ; check_adc_conversion Subroutine
