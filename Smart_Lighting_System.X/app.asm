@@ -51,9 +51,9 @@
   CONFIG  FCMEN = OFF			; Fail-Safe Clock Monitor Enable bit (Fail-Safe Clock Monitor disabled)
   CONFIG  IESO = OFF			; Internal/External Oscillator Switchover bit (Oscillator Switchover mode disabled)
 ; CONFIG2L
-  CONFIG  PWRT = OFF            ; Power-up Timer Enable bit (PWRT disabled)
-  CONFIG  BOREN = OFF           ; Brown-out Reset Enable bits (Brown-out Reset disabled in hardware and software)
-  CONFIG  BORV = 3              ; Brown Out Reset Voltage bits (Minimum setting)
+  CONFIG  PWRT = OFF			; Power-up Timer Enable bit (PWRT disabled)
+  CONFIG  BOREN = OFF			; Brown-out Reset Enable bits (Brown-out Reset disabled in hardware and software)
+  CONFIG  BORV = 3			; Brown Out Reset Voltage bits (Minimum setting)
 ; CONFIG2H
   CONFIG  WDT = OFF			; Watchdog Timer Enable bit (WDT disabled (control is placed on the SWDTEN bit))
   CONFIG  WDTPS = 32768			; Watchdog Timer Postscale Select bits (1:32768)
@@ -103,16 +103,14 @@ PROCESSOR 18f4620
 	RETFIE
 	
 	ORG 0x0018h			;Set the start of the low priority interrupt vector
-	BTFSC INTCON3, 0		;Branch to INT0 isr if the flag is set
+	BTFSC INTCON3, 0		;Branch to INT1 isr if the flag is set
 	BRA INT1_ISR
-
 	RETFIE
 
 ;define the delay variable
 delay_15s equ 0x451h
 ;define adc result variables
 adc_res_low equ 0x452h
-adc_res_high equ 0x453h
 ;define LDR sensor daylight threshold
 ldr_daylight_threshold equ 0x454h
 ;define LDR flag for turning on the led on RC0
@@ -145,9 +143,9 @@ Start:
     call configure_led			;Configure the led pin
     MOVLW 0x00H				;Initialize the STATUS register with 0
     MOVWF STATUS			
-    MOVLW 0xB8h				;load ldr_daylight_threshold with 133(daylight volatage)
+    MOVLW 0xB8h				;load ldr_daylight_threshold with 184(daylight volatage)
     MOVWF ldr_daylight_threshold
-    MOVLW 0x01h				;Initalize the threshold_flag with zero
+    MOVLW 0x01h				;Initalize the threshold_flag with one
     MOVWF threshold_flag
 main_loop:
     call start_adc_conversion		;start the adc conversion
@@ -245,8 +243,6 @@ check:
     ;Read adc conversion result
     MOVF ADRESL, w
     MOVWF adc_res_low
-    MOVF ADRESH, w   
-    MOVWF adc_res_high
     return
 ;------------------------------
 ; check_adc_conversion Subroutine
